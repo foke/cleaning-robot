@@ -1,5 +1,4 @@
 import { ICoordinate } from '../interfaces';
-import { settings } from '../settings';
 
 enum Direction {
   NORTH,
@@ -8,11 +7,15 @@ enum Direction {
   WEST
 }
 
-export const generateGrid = (): boolean[][] => {
+export const generateGrid = (gridSize: number): boolean[][] => {
+  if (gridSize < 1) {
+    throw new Error('Size cannot be less than 1');
+  }
+
   const array2d: boolean[][] = [];
 
-  for (let i = 0; i < settings.GRID_SIZE; i++) {
-    const x = Array(settings.GRID_SIZE).fill(false);
+  for (let i = 0; i < gridSize; i++) {
+    const x = Array(gridSize).fill(false);
     array2d.push(x);
   }
 
@@ -28,15 +31,33 @@ export const getNumberOfCleanedTiles = (grid: boolean[][]): number => {
   return cleanedTiles;
 };
 
-export const getRandomPosition = (): ICoordinate => {
-  const randomX = Math.floor(Math.random() * settings.GRID_SIZE);
-  const randomY = Math.floor(Math.random() * settings.GRID_SIZE);
+export const getRandomPosition = (gridSize: number): ICoordinate => {
+  if (gridSize < 1) {
+    throw new Error('Size cannot be less than 1');
+  }
+
+  const randomX = Math.floor(Math.random() * gridSize);
+  const randomY = Math.floor(Math.random() * gridSize);
 
   return {x: randomX, y: randomY};
 };
 
-export const getRandomAdjacentPosition = (currentPosition: ICoordinate): ICoordinate => {
-  const direction = getRandomAllowedDirection(currentPosition);
+export const getRandomAdjacentPosition = (currentPosition: ICoordinate, gridSize: number): ICoordinate => {
+  if (gridSize < 1) {
+    throw new Error('Grid size cannot be less than 1');
+  }
+
+  const isPositionOutsideGrid = (
+    currentPosition.x < 0 ||
+    currentPosition.y < 0 ||
+    currentPosition.x >= gridSize ||
+    currentPosition.y >= gridSize
+  );
+  if (isPositionOutsideGrid) {
+    throw new Error('Position must be within grid size');
+  }
+
+  const direction = getRandomAllowedDirection(currentPosition, gridSize);
   const {x, y} = currentPosition;
 
   if (direction === Direction.WEST) {
@@ -52,14 +73,14 @@ export const getRandomAdjacentPosition = (currentPosition: ICoordinate): ICoordi
   return {x, y};
 };
 
-const getRandomAllowedDirection = (currentPosition: ICoordinate): Direction => {
+const getRandomAllowedDirection = (currentPosition: ICoordinate, gridSize: number): Direction => {
   const allowedDirections = [];
 
   if (currentPosition.x > 0) {
     allowedDirections.push(Direction.WEST);
   }
 
-  if (currentPosition.x < settings.GRID_SIZE-1) {
+  if (currentPosition.x < gridSize-1) {
     allowedDirections.push(Direction.EAST);
   }
 
@@ -67,7 +88,7 @@ const getRandomAllowedDirection = (currentPosition: ICoordinate): Direction => {
     allowedDirections.push(Direction.NORTH);
   }
 
-  if (currentPosition.y < settings.GRID_SIZE-1) {
+  if (currentPosition.y < gridSize-1) {
     allowedDirections.push(Direction.SOUTH);
   }
 
