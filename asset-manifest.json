@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/cleaning-robot/static/css/main.93fccfb7.chunk.css",
-    "main.js": "/cleaning-robot/static/js/main.3d779606.chunk.js",
-    "main.js.map": "/cleaning-robot/static/js/main.3d779606.chunk.js.map",
+    "main.js": "/cleaning-robot/static/js/main.6a06a3c6.chunk.js",
+    "main.js.map": "/cleaning-robot/static/js/main.6a06a3c6.chunk.js.map",
     "runtime-main.js": "/cleaning-robot/static/js/runtime-main.6d787331.js",
     "runtime-main.js.map": "/cleaning-robot/static/js/runtime-main.6d787331.js.map",
-    "static/js/2.2acc0af1.chunk.js": "/cleaning-robot/static/js/2.2acc0af1.chunk.js",
-    "static/js/2.2acc0af1.chunk.js.map": "/cleaning-robot/static/js/2.2acc0af1.chunk.js.map",
+    "static/js/2.c52ee306.chunk.js": "/cleaning-robot/static/js/2.c52ee306.chunk.js",
+    "static/js/2.c52ee306.chunk.js.map": "/cleaning-robot/static/js/2.c52ee306.chunk.js.map",
     "index.html": "/cleaning-robot/index.html",
     "static/css/main.93fccfb7.chunk.css.map": "/cleaning-robot/static/css/main.93fccfb7.chunk.css.map",
-    "static/js/2.2acc0af1.chunk.js.LICENSE.txt": "/cleaning-robot/static/js/2.2acc0af1.chunk.js.LICENSE.txt",
+    "static/js/2.c52ee306.chunk.js.LICENSE.txt": "/cleaning-robot/static/js/2.c52ee306.chunk.js.LICENSE.txt",
     "static/media/robot-vacuum-cleaner.bf037834.svg": "/cleaning-robot/static/media/robot-vacuum-cleaner.bf037834.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.6d787331.js",
-    "static/js/2.2acc0af1.chunk.js",
+    "static/js/2.c52ee306.chunk.js",
     "static/css/main.93fccfb7.chunk.css",
-    "static/js/main.3d779606.chunk.js"
+    "static/js/main.6a06a3c6.chunk.js"
   ]
 }
