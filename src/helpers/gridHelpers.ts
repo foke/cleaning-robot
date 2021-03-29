@@ -1,5 +1,5 @@
-import { ICoordinate } from './interfaces';
-import { settings } from './settings';
+import { ICoordinate } from '../interfaces';
+import { settings } from '../settings';
 
 enum Direction {
   NORTH,
@@ -21,6 +21,11 @@ export const generateGrid = (): boolean[][] => {
 
 export const checkIsGridComplete = (grid: boolean[][]): boolean => {
   return grid.every(row => row.every(column => column));
+};
+
+export const getNumberOfCleanedTiles = (grid: boolean[][]): number => {
+  const cleanedTiles = grid.flatMap(row => row.filter(column => column)).length;
+  return cleanedTiles;
 };
 
 export const getRandomPosition = (): ICoordinate => {

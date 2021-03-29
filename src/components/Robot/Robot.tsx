@@ -1,13 +1,30 @@
 import React from 'react';
-import { settings } from '../../settings';
-import robot from './robot-vacuum-cleaner.svg';
 import styled from 'styled-components';
+import { settings } from '../../settings';
 import { ICoordinate } from '../../interfaces';
+import robot from './robot-vacuum-cleaner.svg';
 
 interface IRobotProps {
   position: ICoordinate;
   animate: boolean;
 };
+
+const ROBOT_MOVEMENT_SPEED = 0.9 * settings.ROBOT_SPEED_IN_MILLIS/1000;
+
+const RobotWrapper = styled.div<{position: ICoordinate, animate: boolean}>`
+  position: absolute;
+  transform: translate(
+    ${({position}) => position.x * settings.TILE_SIZE_IN_PX}px,
+    ${({position}) => position.y * settings.TILE_SIZE_IN_PX}px
+  );
+  transition: ${({animate}) => animate ? `transform ${ROBOT_MOVEMENT_SPEED}s linear` : ''};
+`;
+
+const RobotImage = styled.img<{rotation: number}>`
+  transform: rotate(${({rotation}) => rotation}deg);
+  width: ${settings.TILE_SIZE_IN_PX}px;
+  height: ${settings.TILE_SIZE_IN_PX}px;
+`;
 
 export const Robot: React.FC<IRobotProps> = ({position, animate}) => {
   const [rotationAngle, setRotationAngle] = React.useState<number>(0);
@@ -35,18 +52,3 @@ export const Robot: React.FC<IRobotProps> = ({position, animate}) => {
     </RobotWrapper>
   );
 };
-
-const RobotWrapper = styled.div<{position: ICoordinate, animate: boolean}>`
-  position: absolute;
-  transform: translate(
-    ${({position}) => position.x * settings.TILE_SIZE_IN_PX}px,
-    ${({position}) => position.y * settings.TILE_SIZE_IN_PX}px
-  );
-  transition: ${({animate}) => animate ? `transform ${settings.ROBOT_SPEED_IN_MILLIS/1000}s linear` : ''};
-`;
-
-const RobotImage = styled.img<{rotation: number}>`
-  transform: rotate(${({rotation}) => rotation}deg);
-  width: ${settings.TILE_SIZE_IN_PX}px;
-  height: ${settings.TILE_SIZE_IN_PX}px;
-`;

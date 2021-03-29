@@ -1,5 +1,5 @@
-import { ICoordinate } from './interfaces';
-import { generateGrid, getRandomAdjacentPosition, getRandomPosition } from './gridHelpers';
+import { ICoordinate } from '../interfaces';
+import { generateGrid, getRandomAdjacentPosition, getRandomPosition } from '../helpers/gridHelpers';
 
 type State = { currentPosition: ICoordinate, grid: boolean[][] };
 type Action = { type: 'RESET' | 'MOVE' };
@@ -13,7 +13,7 @@ export const getInitialState = () => {
   return { grid, currentPosition };
 };
 
-// returns the next position and the grid (with new position marked as cleaned)
+// returns a new position and the grid (with new position marked as cleaned)
 const getNextMove = (state: State) => {
   const currentPosition = getRandomAdjacentPosition(state.currentPosition!);
   const grid = state.grid.map((row, y) => {

@@ -1,66 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import { settings } from './settings';
 import { Floor, Robot } from './components';
-import { getInitialState, gridReducer } from './gridReducer';
-import { checkIsGridComplete } from './gridHelpers';
+import { getInitialState, gridReducer } from './reducers/gridReducer';
+import { checkIsGridComplete, getNumberOfCleanedTiles } from './helpers/gridHelpers';
 
-const App = () => {
-  const [state, dispatch] = React.useReducer(gridReducer, getInitialState());
-  const [totalTimeInMillis, setTotalTimeInMillis] = useState<number>(0);
-  const movementInterval = React.useRef<number>(0);
-
-  useEffect(() => {
-    if (!checkIsGridComplete(state.grid)) {
-      movementInterval.current = window.setInterval(() => {
-        setTotalTimeInMillis(totalTimeInMillis => totalTimeInMillis + settings.ROBOT_SPEED_IN_MILLIS);
-        dispatch({type: 'MOVE'});
-      }, settings.ROBOT_SPEED_IN_MILLIS);
-
-      return () => clearTimeout(movementInterval.current);
-    }
-  }, [state.grid]);
-
-  const handleReset = () => {
-    clearTimeout(movementInterval.current);
-    setTotalTimeInMillis(0);
-    dispatch({type: 'RESET'});
-  };
-
-  const secondsPassed = (totalTimeInMillis / 1000).toFixed(1);
-  const hasStarted = totalTimeInMillis > 0;
-
-  return (
-    <AppContainer>
-      <Room>
-        <Robot position={state.currentPosition} animate={hasStarted} />
-        <Floor grid={state.grid} />
-      </Room>
-      <Panel>
-        <Status complete={checkIsGridComplete(state.grid)}>
-          {checkIsGridComplete(state.grid)
-            ? `Cleaning complete in ${secondsPassed} seconds`
-            : 'Cleaning in progress'
-          }
-        </Status>
-        <ResetButton onClick={handleReset}>Reset</ResetButton>
-      </Panel>
-    </AppContainer>
-  );
-}
 
 const AppContainer = styled.div`
   display: flex;
   justify-content: center;
-  height: 100%;
+  min-height: 100%;
   flex-direction: column;
+  margin: 0 auto;
   width: ${settings.GRID_SIZE * settings.TILE_SIZE_IN_PX}px;
-  margin: auto;
 `;
 
 const Room = styled.div`
   position: relative;
   border-radius: 5px;
+  height: ${settings.GRID_SIZE * settings.TILE_SIZE_IN_PX}px;
   overflow: hidden;
 `;
 
@@ -90,5 +48,48 @@ const Status = styled.p<{complete: boolean}>`
   color: ${({complete}) => complete ? '#a4d2a4' : '#666'};
   flex: 1;
 `;
+
+const App = () => {
+  const [state, dispatch] = React.useReducer(gridReducer, getInitialState());
+  const movementInterval = React.useRef<number>();
+  const startTimeStamp = React.useRef<number>(new Date().getTime());
+
+  React.useEffect(() => {
+    movementInterval.current = window.setInterval(() => dispatch({type: 'MOVE'}), settings.ROBOT_SPEED_IN_MILLIS);
+  }, []);
+
+  React.useEffect(() => {
+    if (checkIsGridComplete(state.grid)) {
+      clearInterval(movementInterval.current);
+    }
+  }, [state.grid]);
+
+  const handleReset = () => {
+    clearInterval(movementInterval.current);
+    dispatch({type: 'RESET'});
+
+    startTimeStamp.current = new Date().getTime();
+    movementInterval.current = window.setInterval(() => dispatch({type: 'MOVE'}), settings.ROBOT_SPEED_IN_MILLIS);
+  };
+
+  const hasStarted = getNumberOfCleanedTiles(state.grid) > 1;
+  const isComplete = checkIsGridComplete(state.grid);
+  const secondsPassed = Math.round((new Date().getTime() - startTimeStamp.current) / 1000);
+
+  return (
+    <AppContainer>
+      <Room>
+        <Robot position={state.currentPosition} animate={hasStarted} />
+        <Floor grid={state.grid} />
+      </Room>
+      <Panel>
+        <Status complete={isComplete}>
+          {isComplete ? `Cleaning complete in ${secondsPassed} seconds` : 'Cleaning in progress...'}
+        </Status>
+        <ResetButton onClick={handleReset}>Reset</ResetButton>
+      </Panel>
+    </AppContainer>
+  );
+}
 
 export default App;
