@@ -1,5 +1,5 @@
 # Cleaning Robot
-Demo is available [here](https://github.com/facebook/create-react-app).
+Demo is available [here](https://foke.github.io/cleaning-robot).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
