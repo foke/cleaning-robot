@@ -25,7 +25,7 @@ export const Floor: React.FC<IFloorProps> = ({grid}) => {
       {grid.map((row, index) => (
         <Row key={index}>
           {row.map((column, index) => (
-            <Col clean={column} key={index} />
+            <Col clean={column} key={index} data-testid={column ? 'tile-clean' : 'tile-dirty'} />
           ))}
         </Row>
       ))}

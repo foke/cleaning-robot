@@ -48,7 +48,7 @@ export const Robot: React.FC<IRobotProps> = ({position, animate}) => {
 
   return (
     <RobotWrapper position={position} animate={animate}>
-      <RobotImage rotation={rotationAngle} src={robot} alt="robot" />
+      <RobotImage rotation={rotationAngle} src={robot} alt="cleaning robot" />
     </RobotWrapper>
   );
 };

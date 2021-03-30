@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
 import { settings } from './settings';
-import { Floor, Robot } from './components';
+import { Floor, Robot, Panel } from './components';
 import { getInitialState, gridReducer } from './reducers/gridReducer';
 import { checkIsGridComplete, getNumberOfCleanedTiles } from './helpers/gridHelpers';
-
 
 const AppContainer = styled.div`
   display: flex;
@@ -22,33 +21,6 @@ const Room = styled.div`
   overflow: hidden;
 `;
 
-const Panel = styled.div`
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 1.4rem;
-`;
-
-const ResetButton = styled.button`
-  background-color: #eee;
-  color: #666;
-  border-radius: 5px;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1.4rem;
-
-  &:hover {
-    background-color: #ccc;
-    cursor: pointer;
-  }
-`;
-
-const Status = styled.p<{complete: boolean}>`
-  color: ${({complete}) => complete ? '#a4d2a4' : '#666'};
-  flex: 1;
-`;
-
 const App = () => {
   const [state, dispatch] = React.useReducer(gridReducer, getInitialState());
   const movementInterval = React.useRef<number>();
@@ -56,6 +28,7 @@ const App = () => {
 
   React.useEffect(() => {
     movementInterval.current = window.setInterval(() => dispatch({type: 'MOVE'}), settings.ROBOT_SPEED_IN_MILLIS);
+    return () => clearInterval(movementInterval.current);
   }, []);
 
   React.useEffect(() => {
@@ -82,12 +55,7 @@ const App = () => {
         <Robot position={state.currentPosition} animate={hasStarted} />
         <Floor grid={state.grid} />
       </Room>
-      <Panel>
-        <Status complete={isComplete}>
-          {isComplete ? `Cleaning complete in ${secondsPassed} seconds` : 'Cleaning in progress...'}
-        </Status>
-        <ResetButton onClick={handleReset}>Reset</ResetButton>
-      </Panel>
+      <Panel onReset={handleReset} isComplete={isComplete} secondsPassed={secondsPassed} />
     </AppContainer>
   );
 }
