@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/cleaning-robot/static/css/main.93fccfb7.chunk.css",
-    "main.js": "/cleaning-robot/static/js/main.6a06a3c6.chunk.js",
-    "main.js.map": "/cleaning-robot/static/js/main.6a06a3c6.chunk.js.map",
+    "main.js": "/cleaning-robot/static/js/main.831b6175.chunk.js",
+    "main.js.map": "/cleaning-robot/static/js/main.831b6175.chunk.js.map",
     "runtime-main.js": "/cleaning-robot/static/js/runtime-main.6d787331.js",
     "runtime-main.js.map": "/cleaning-robot/static/js/runtime-main.6d787331.js.map",
     "static/js/2.c52ee306.chunk.js": "/cleaning-robot/static/js/2.c52ee306.chunk.js",
@@ -16,6 +16,6 @@
     "static/js/runtime-main.6d787331.js",
     "static/js/2.c52ee306.chunk.js",
     "static/css/main.93fccfb7.chunk.css",
-    "static/js/main.6a06a3c6.chunk.js"
+    "static/js/main.831b6175.chunk.js"
   ]
 }
